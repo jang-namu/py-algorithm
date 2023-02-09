@@ -23,6 +23,9 @@ for burger, fries in orders:
     print(dp)
 
 print(max(map(max, dp)))
+
+
+
 # 아래 대신 이렇게 쓰면된다.
 """
 MAX = 0

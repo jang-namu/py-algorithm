@@ -31,6 +31,8 @@ for gem in gems:
         res.append('N')
 print(" ".join(res))
 
+
+
 """
 # 백준 풀이 : set()을 사용하고, 추가하는 식. union은 합집합
 num_weight = int(input())
