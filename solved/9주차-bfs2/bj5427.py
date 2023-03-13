@@ -1,5 +1,65 @@
 # 5427 불
+"""
+    최종 개선
+    따로 visited를 관리할 필요가 없음 => 이미 지나간 칸은 바꾸고 오기 때문에, '.' 빈 칸만 처리하면 된다.
+"""
+import sys
+input = sys.stdin.readline
+
+
+def turn():
+    fire = []
+    sangeun = []
+
+    for i, row in enumerate(building):
+        for j in range(w):
+            if row[j] == '*':
+                fire.append((i, j)) # 불은 여러군데 주어질 수 있다.
+            elif row[j] == '@':
+                sangeun.append((i, j))
+
+    time = 0
+    while sangeun:
+        time += 1
+        new_fire = []
+        for row, column in fire:
+            for dy, dx in move:
+                ny = row + dy
+                nx = column + dx
+                if 0 <= nx < w and 0 <= ny < h:
+                    if building[ny][nx] == '.': # visited를 할 필요가 없음. (어차피 *로 바꾼다)
+                        building[ny][nx] = '*'
+                        new_fire.append((ny, nx))
+        fire = new_fire
+
+        new_sangeun = []
+        for row, column in sangeun:
+            for dy, dx in move:
+                ny = row + dy
+                nx = column + dx
+                if 0 <= nx < w and 0 <= ny < h:
+                    if building[ny][nx] == '.':
+                        building[ny][nx] = '@'
+                        new_sangeun.append((ny, nx))
+                else:
+                    return time
+        sangeun = new_sangeun
+
+    return "IMPOSSIBLE"
+
+
+T = int(input())
+move = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+
+
+for _ in range(T):
+    w, h = map(int, input().split())
+    building = list(list(input().rstrip()) for _ in range(h))
+    print(turn())
+
+
 # 백준 풀이
+"""
 import io, os, sys
 
 
@@ -58,8 +118,73 @@ def problem(rows, cols, board):
 
 if __name__ == "__main__":
     sys.exit(main())
+"""
+
+"""
+    아래 코드 개선, ny, nx를 새로 만들고 배열 범위안에 인덱스인지 확인할 때,
+    벗어나면 탈출. 
+    + fire에도 visited 추가
+"""
+"""
+# 5427 불
+import sys
+from collections import deque
+input = sys.stdin.readline
 
 
+def turn():
+    while sangeun:
+        length_fire = len(fire)
+        for _ in range(length_fire):
+            row, column = fire.popleft()
+            for dy, dx in move:
+                ny = row + dy
+                nx = column + dx
+                if 0 <= nx < w and 0 <= ny < h:
+                    if building[ny][nx] == '.' and not visited[ny][nx]:
+                        visited[ny][nx] = 1
+                        building[ny][nx] = '*'
+                        fire.append((ny, nx))
+
+        length_sangeun = len(sangeun)
+        for _ in range(length_sangeun):
+            row, column = sangeun.popleft()
+            for dy, dx in move:
+                ny = row + dy
+                nx = column + dx
+                if 0 <= nx < w and 0 <= ny < h:
+                    if not visited[ny][nx] and building[ny][nx] == '.':
+                        visited[ny][nx] = visited[row][column] + 1
+                        sangeun.append((ny, nx))
+                else:
+                    return visited[row][column] + 1
+    return "IMPOSSIBLE"
+
+
+T = int(input())
+move = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+
+
+for _ in range(T):
+    w, h = map(int, input().split())
+
+    building = list()
+    fire = deque()
+    sangeun = deque()
+    visited = [[0] * w for _ in range(h)]
+
+    for i in range(h):
+        line = list(input().rstrip())
+        building.append(list(s for s in line))
+        for j in range(w):
+            if line[j] == '*':
+                fire.append((i, j)) # 불은 여러군데 주어질 수 있다.
+            elif line[j] == '@':
+                sangeun.append((i, j))
+
+
+    print(turn())
+    """
 
 """
     아이디어 : 3055-탈출 문제와 비슷하게 불이 먼저 번지고 이동한다.
