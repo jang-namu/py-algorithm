@@ -1,7 +1,10 @@
 # 2636 치즈
+""
+
 """
     아이디어 : 거꾸로 풀기. 치즈가 놓인 칸 '1'이 아닌 바깥쪽 '0'을 탐색한다.
     바깥쪽 0과 맡붙어 있는 '1'을 찾아 이번 턴에 녹인다.
+"""
 """
 import sys
 from collections import deque
@@ -28,6 +31,7 @@ def bfs():
                 if board[ny][nx] == 0:
                     visited[ny][nx] = True
                     air.append((ny, nx))
+                    continue
                 if board[ny][nx] == 1:
                     count += 1
                     visited[ny][nx] = True
@@ -51,4 +55,4 @@ while True:
         print(time)
         print(last)
         break
-
+"""
