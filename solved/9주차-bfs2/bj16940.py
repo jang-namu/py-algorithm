@@ -1,4 +1,39 @@
 # 16940 BFS 스페셜 저지
+import sys
+from collections import deque
+input = sys.stdin.readline
+
+N = int(input())
+adj = list([] for _ in range(N + 1))
+for _ in range(N-1):
+    u, v = map(int, input().split())
+    adj[u].append(v)
+    #adj[v].append(u)
+print(adj)
+verify = deque(list(map(int, input().split())))
+if verify[0] != 1:
+    print(0)
+    exit(0)
+
+visited = [0] * (N+1)
+visited[0] = visited[1] = 1
+pos = verify.popleft()
+queue = deque()
+for child in verify:
+    while not visited[child]:
+        if child in adj[pos]:
+            queue.append(child)
+            visited[child] = 1
+        else:
+            pos = queue.popleft()
+        print(queue)
+        if not queue:
+            print(0)
+            exit(0)
+
+print(1 if sum(visited) == N + 1 else 0 )
+
+
 """
     너무 느리다.
     설명 : 처음 시작 노드는 1로 고정이다. 연결된 노드의 탐색 순서는 랜덤이지만,
