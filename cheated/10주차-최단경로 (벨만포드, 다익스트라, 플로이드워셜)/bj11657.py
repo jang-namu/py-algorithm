@@ -6,6 +6,8 @@
 
 
     해결 : 출발도시가 무한대일때 계산안하도록 변경
+    또는
+    1 != 1e11 대신 적당히 큰수 M을 둬서, 1 < 1e11-M 으로 작성
 """
 import sys
 input = sys.stdin.readline
