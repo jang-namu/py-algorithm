@@ -15,7 +15,6 @@ for i in check:
         ans.append(1)
     else:
         ans.append(0)
-print(' '.join(map(str, ans)))
 
 """
 # 파이썬의 set은 해쉬를 이용해 삽입과 삭제 연산이 O(1)시간안에 처리된다.   

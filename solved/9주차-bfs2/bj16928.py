@@ -16,36 +16,33 @@ for _ in range(N + M):
     start, end = map(int, input().split())
     ladder_snake[start] = end
 
-visited = [0] * 101
-
 
 def bfs():
     queue = deque()
     queue.append(1)
-
+    visited = [0] * 101
 
     while queue:
         pos = queue.popleft()
         for dx in range(1, 7):
             npos = pos + dx
-            if visited[npos]:
+            if visited[npos] or npos > 100:
                 continue
             if npos in ladder_snake:
                 queue.append(ladder_snake[npos])
                 visited[ladder_snake[npos]] = visited[pos] + 1
+                print(visited[npos], npos)
+                print(visited[ladder_snake[npos]], ladder_snake[npos])
                 continue
             if npos == 100:
+                print(visited[pos])
                 return visited[pos] + 1
-            if npos > 100:
-                continue
             queue.append(npos)
             visited[npos] = visited[pos] + 1
+            print(visited[npos], npos)
 
 
 print(bfs())
-for i in range(10):
-    print(visited[i*10+1: i*10+111])
-
 """
 import sys
 from collections import deque
