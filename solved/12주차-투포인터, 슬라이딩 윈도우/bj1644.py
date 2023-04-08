@@ -9,17 +9,14 @@ input = sys.stdin.readline
 n = int(input())
 
 nums = [*range(n+1)]
-for i in range(2, n+1):
+for i in range(2, int(n**(0.5))+1):
     if nums[i] == 0:
         continue
     for j in range(2*nums[i], n+1, nums[i]):
         nums[j] = 0
 
-num = []
-for i in range(2, n+1):
-    if nums[i] != 0:
-        num.append(i)
-end=0
+num = [i for i in nums if i != 0]
+end = 0
 m = 0
 count = 0
 length = len(num)
